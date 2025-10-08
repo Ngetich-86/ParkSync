@@ -1,0 +1,11 @@
+Vehicle Enters 
+    ↓
+System Checks: Reserved? → Yes → Assign Reserved Slot
+    ↓ No
+Assign Best Available Public Slot
+    ↓
+Send Confirmation Email
+    ↓
+Track Duration & Calculate Fee
+    ↓
+Vehicle Exits → Process Payment → Send Receipt

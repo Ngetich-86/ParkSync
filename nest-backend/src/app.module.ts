@@ -1,0 +1,60 @@
+import { MiddlewareConsumer,Module, NestModule } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { DatabaseModule } from './database/database.module';
+import { HealthModule } from './health-check/health.module';
+import { AuthModule } from './auth/auth.module';
+import { VehicleModule } from './vehicles/vehicle.module';
+import { ConfigModule } from '@nestjs/config/dist/config.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { LoggerMiddleware } from './logger.middleware';
+import { APP_GUARD } from '@nestjs/core';
+// import { AtGuard } from './auth/guards/at.guards';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { ConfigService } from '@nestjs/config';
+
+
+@Module({
+  imports: [
+      ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    DatabaseModule,
+    AuthModule,
+    VehicleModule,
+    HealthModule,
+    // TypeOrmModule.forFeature([User]), 
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => [
+        {
+          ttl: configService.getOrThrow<number>('THROTTLER_TTL', {
+            infer: true,
+          }),
+          limit: configService.getOrThrow<number>('THROTTLER_LIMIT', {
+            infer: true,
+          }),
+          ignoreUserAgents: [/^curl\//], 
+        },
+      ],
+    }),
+   
+  ],
+  controllers: [AppController],
+  providers: [
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AtGuard,
+    // },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // }
+  ],
+})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
