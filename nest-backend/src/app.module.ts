@@ -4,6 +4,8 @@ import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health-check/health.module';
 import { AuthModule } from './auth/auth.module';
 import { VehicleModule } from './vehicles/vehicle.module';
+import { ParkingSlotModule } from './parking-slot/parking-slot.module';
+import { ReservationModule } from './reservations/reservation.module';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerMiddleware } from './logger.middleware';
@@ -22,6 +24,8 @@ import { ConfigService } from '@nestjs/config';
     DatabaseModule,
     AuthModule,
     VehicleModule,
+    ParkingSlotModule,
+    ReservationModule,
     HealthModule,
     // TypeOrmModule.forFeature([User]), 
     ThrottlerModule.forRootAsync({

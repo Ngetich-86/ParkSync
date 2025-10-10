@@ -69,3 +69,4 @@ export class InitialUserTable1700000000000 implements MigrationInterface {
     await queryRunner.dropTable('user');
   }
 }
+

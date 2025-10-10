@@ -1,0 +1,312 @@
+### Parking Slot Management Tests
+### Make sure to authenticate first using the auth endpoints to get access tokens
+### Replace {{accessToken}} with a valid JWT access token from authentication
+
+@baseUrl = http://localhost:5000
+@contentType = application/json
+
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc2MDEyNjk4NSwiZXhwIjoxNzYwMTMwNTg1fQ.t4d8SVONI2cR4MBqAwK4QNh7xDkGgjhYnfHVuEpO3Ck
+
+### 1. Create a Four-Wheeler Public Parking Slot
+POST {{baseUrl}}/parking-slots
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "floorId": 1,
+  "slotNumber": "A-001",
+  "slotType": "FOUR_WHEELER",
+  "reservationType": "PUBLIC",
+  "isOccupied": false,
+  "isMaintenance": false
+}
+
+### 2. Create a Two-Wheeler Reserved Parking Slot
+POST {{baseUrl}}/parking-slots
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "floorId": 1,
+  "slotNumber": "B-001",
+  "slotType": "TWO_WHEELER",
+  "reservationType": "RESERVED",
+  "isOccupied": false,
+  "isMaintenance": false
+}
+
+### 3. Create Parking Slot with Minimal Data
+POST {{baseUrl}}/parking-slots
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "slotNumber": "C-001",
+  "slotType": "FOUR_WHEELER",
+  "reservationType": "PUBLIC"
+}
+
+### 4. Create Multiple Parking Slots for Floor 1
+POST {{baseUrl}}/parking-slots
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "floorId": 1,
+  "slotNumber": "A-002",
+  "slotType": "FOUR_WHEELER",
+  "reservationType": "PUBLIC"
+}
+
+### 5. Create Parking Slot for Floor 2
+POST {{baseUrl}}/parking-slots
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "floorId": 2,
+  "slotNumber": "A-001",
+  "slotType": "FOUR_WHEELER",
+  "reservationType": "PUBLIC"
+}
+
+### 6. Get All Parking Slots (with pagination)
+GET {{baseUrl}}/parking-slots?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 7. Get Parking Slots by Floor
+GET {{baseUrl}}/parking-slots?floorId=1&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 8. Get Four-Wheeler Slots Only
+GET {{baseUrl}}/parking-slots?slotType=FOUR_WHEELER&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 9. Get Two-Wheeler Slots Only
+GET {{baseUrl}}/parking-slots?slotType=TWO_WHEELER&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 10. Get Reserved Slots Only
+GET {{baseUrl}}/parking-slots?reservationType=RESERVED&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 11. Get Public Slots Only
+GET {{baseUrl}}/parking-slots?reservationType=PUBLIC&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 12. Get Occupied Slots Only
+GET {{baseUrl}}/parking-slots?isOccupied=true&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 13. Get Available Slots Only
+GET {{baseUrl}}/parking-slots?isOccupied=false&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 14. Get Slots Under Maintenance
+GET {{baseUrl}}/parking-slots?isMaintenance=true&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 15. Search Slots by Slot Number
+GET {{baseUrl}}/parking-slots?slotNumber=A-001&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 16. Get Available Parking Slots (All Types)
+GET {{baseUrl}}/parking-slots/available
+Authorization: Bearer {{accessToken}}
+
+### 17. Get Available Four-Wheeler Slots
+GET {{baseUrl}}/parking-slots/available?slotType=FOUR_WHEELER
+Authorization: Bearer {{accessToken}}
+
+### 18. Get Available Two-Wheeler Slots
+GET {{baseUrl}}/parking-slots/available?slotType=TWO_WHEELER
+Authorization: Bearer {{accessToken}}
+
+### 19. Get Available Slots on Floor 1
+GET {{baseUrl}}/parking-slots/available?floorId=1
+Authorization: Bearer {{accessToken}}
+
+### 20. Get Available Four-Wheeler Slots on Floor 1
+GET {{baseUrl}}/parking-slots/available?slotType=FOUR_WHEELER&floorId=1
+Authorization: Bearer {{accessToken}}
+
+### 21. Get Parking Slot by ID
+GET {{baseUrl}}/parking-slots/1
+Authorization: Bearer {{accessToken}}
+
+### 22. Get Parking Slot by Floor and Slot Number
+GET {{baseUrl}}/parking-slots/floor/1/slot/A-001
+Authorization: Bearer {{accessToken}}
+
+### 23. Get Parking Slot Statistics
+GET {{baseUrl}}/parking-slots/stats
+Authorization: Bearer {{accessToken}}
+
+### 24. Get Floor Statistics
+GET {{baseUrl}}/parking-slots/floor/1/stats
+Authorization: Bearer {{accessToken}}
+
+### 25. Update Parking Slot Information
+PATCH {{baseUrl}}/parking-slots/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "slotType": "TWO_WHEELER",
+  "reservationType": "RESERVED"
+}
+
+### 26. Update Slot Status (Mark as Occupied)
+PATCH {{baseUrl}}/parking-slots/1/status
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "isOccupied": true,
+  "isMaintenance": false
+}
+
+### 27. Update Slot Status (Mark as Under Maintenance)
+PATCH {{baseUrl}}/parking-slots/2/status
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "isOccupied": false,
+  "isMaintenance": true
+}
+
+### 28. Update Slot Status (Mark as Available)
+PATCH {{baseUrl}}/parking-slots/1/status
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "isOccupied": false,
+  "isMaintenance": false
+}
+
+### 29. Delete Parking Slot
+DELETE {{baseUrl}}/parking-slots/3
+Authorization: Bearer {{accessToken}}
+
+### 30. Test Invalid Slot Type
+POST {{baseUrl}}/parking-slots
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "slotNumber": "INV-001",
+  "slotType": "INVALID_TYPE",
+  "reservationType": "PUBLIC"
+}
+
+### 31. Test Invalid Reservation Type
+POST {{baseUrl}}/parking-slots
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "slotNumber": "INV-002",
+  "slotType": "FOUR_WHEELER",
+  "reservationType": "INVALID_TYPE"
+}
+
+### 32. Test Duplicate Slot Number on Same Floor
+POST {{baseUrl}}/parking-slots
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "floorId": 1,
+  "slotNumber": "A-001",
+  "slotType": "TWO_WHEELER",
+  "reservationType": "PUBLIC"
+}
+
+### 33. Test Invalid Status Combination (Occupied + Maintenance)
+PATCH {{baseUrl}}/parking-slots/1/status
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "isOccupied": true,
+  "isMaintenance": true
+}
+
+### 34. Test Get Non-existent Parking Slot
+GET {{baseUrl}}/parking-slots/99999
+Authorization: Bearer {{accessToken}}
+
+### 35. Test Update Non-existent Parking Slot
+PATCH {{baseUrl}}/parking-slots/99999
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "slotType": "TWO_WHEELER"
+}
+
+### 36. Test Delete Non-existent Parking Slot
+DELETE {{baseUrl}}/parking-slots/99999
+Authorization: Bearer {{accessToken}}
+
+### 37. Test Access Without Authentication
+GET {{baseUrl}}/parking-slots
+
+### 38. Test Access with Invalid Token
+GET {{baseUrl}}/parking-slots
+Authorization: Bearer invalid-token
+
+### 39. Test Large Pagination
+GET {{baseUrl}}/parking-slots?page=1&limit=100
+Authorization: Bearer {{accessToken}}
+
+### 40. Test Negative Page Number
+GET {{baseUrl}}/parking-slots?page=-1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 41. Test Zero Limit
+GET {{baseUrl}}/parking-slots?page=1&limit=0
+Authorization: Bearer {{accessToken}}
+
+### 42. Test Multiple Filters
+GET {{baseUrl}}/parking-slots?floorId=1&slotType=FOUR_WHEELER&isOccupied=false&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 43. Test Empty Search
+GET {{baseUrl}}/parking-slots?slotNumber=&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 44. Test Special Characters in Search
+GET {{baseUrl}}/parking-slots?slotNumber=A%2D001&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 45. Test Case Sensitivity
+GET {{baseUrl}}/parking-slots?slotNumber=a-001&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 46. Test Boolean Filtering
+GET {{baseUrl}}/parking-slots?isOccupied=false&isMaintenance=false&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 47. Test Floor Statistics for Non-existent Floor
+GET {{baseUrl}}/parking-slots/floor/999/stats
+Authorization: Bearer {{accessToken}}
+
+### 48. Test Find by Non-existent Floor and Slot
+GET {{baseUrl}}/parking-slots/floor/999/slot/NON-EXISTENT
+Authorization: Bearer {{accessToken}}
+
+### 49. Test Complex Filtering
+GET {{baseUrl}}/parking-slots?floorId=1&slotType=FOUR_WHEELER&reservationType=PUBLIC&isOccupied=false&isMaintenance=false&page=1&limit=5
+Authorization: Bearer {{accessToken}}
+
+### 50. Test Update with Duplicate Slot Number
+PATCH {{baseUrl}}/parking-slots/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "slotNumber": "A-002"
+}

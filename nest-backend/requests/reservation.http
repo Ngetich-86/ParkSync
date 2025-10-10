@@ -1,0 +1,396 @@
+### Reservation Management Tests
+### Make sure to authenticate first using the auth endpoints to get access tokens
+### Replace {{accessToken}} with a valid JWT access token from authentication
+### Also make sure you have created vehicles and parking slots before testing reservations
+
+@baseUrl = http://localhost:5000
+@contentType = application/json
+
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc2MDEyNjk4NSwiZXhwIjoxNzYwMTMwNTg1fQ.t4d8SVONI2cR4MBqAwK4QNh7xDkGgjhYnfHVuEpO3Ck
+
+### 1. Create a New Reservation
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 1,
+  "startTime": "2024-01-15T10:00:00Z",
+  "endTime": "2024-01-15T12:00:00Z",
+  "status": "ACTIVE",
+  "entryTime": "2024-01-15T10:05:00Z",
+  "totalAmount": 15.50,
+  "paymentStatus": "PENDING"
+}
+
+### 2. Create Another Reservation (Different Time Slot)
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 2,
+  "slotId": 2,
+  "startTime": "2024-01-15T14:00:00Z",
+  "endTime": "2024-01-15T16:00:00Z",
+  "status": "ACTIVE",
+  "entryTime": "2024-01-15T14:05:00Z",
+  "totalAmount": 20.00,
+  "paymentStatus": "PENDING"
+}
+
+### 3. Create Reservation with Minimal Data
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 3,
+  "startTime": "2024-01-16T09:00:00Z",
+  "endTime": "2024-01-16T11:00:00Z",
+  "entryTime": "2024-01-16T09:05:00Z"
+}
+
+### 4. Get All Reservations (with pagination)
+GET {{baseUrl}}/reservations?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 5. Get Reservations by Vehicle ID
+GET {{baseUrl}}/reservations?vehicleId=1&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 6. Get Reservations by Parking Slot ID
+GET {{baseUrl}}/reservations?slotId=1&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 7. Get Active Reservations Only
+GET {{baseUrl}}/reservations?status=ACTIVE&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 8. Get Completed Reservations Only
+GET {{baseUrl}}/reservations?status=COMPLETED&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 9. Get Cancelled Reservations Only
+GET {{baseUrl}}/reservations?status=CANCELLED&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 10. Get Pending Payment Reservations
+GET {{baseUrl}}/reservations?paymentStatus=PENDING&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 11. Get Paid Reservations
+GET {{baseUrl}}/reservations?paymentStatus=PAID&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 12. Get Failed Payment Reservations
+GET {{baseUrl}}/reservations?paymentStatus=FAILED&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 13. Get Reservations by Date Range (Start Date)
+GET {{baseUrl}}/reservations?startDateFrom=2024-01-15T00:00:00Z&startDateTo=2024-01-15T23:59:59Z&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 14. Get Reservations by Date Range (End Date)
+GET {{baseUrl}}/reservations?endDateFrom=2024-01-15T00:00:00Z&endDateTo=2024-01-15T23:59:59Z&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 15. Get Active Reservations (All)
+GET {{baseUrl}}/reservations/active
+Authorization: Bearer {{accessToken}}
+
+### 16. Get Reservation Statistics
+GET {{baseUrl}}/reservations/stats
+Authorization: Bearer {{accessToken}}
+
+### 17. Get Reservations by Vehicle ID (Direct)
+GET {{baseUrl}}/reservations/vehicle/1
+Authorization: Bearer {{accessToken}}
+
+### 18. Get Vehicle Reservation History
+GET {{baseUrl}}/reservations/vehicle/1/history
+Authorization: Bearer {{accessToken}}
+
+### 19. Get Reservations by Slot ID (Direct)
+GET {{baseUrl}}/reservations/slot/1
+Authorization: Bearer {{accessToken}}
+
+### 20. Get Slot Reservation History
+GET {{baseUrl}}/reservations/slot/1/history
+Authorization: Bearer {{accessToken}}
+
+### 21. Get Reservation by ID
+GET {{baseUrl}}/reservations/1
+Authorization: Bearer {{accessToken}}
+
+### 22. Update Reservation Information
+PATCH {{baseUrl}}/reservations/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "endTime": "2024-01-15T13:00:00Z",
+  "totalAmount": 18.75
+}
+
+### 23. Checkout Reservation (Complete with Payment)
+PATCH {{baseUrl}}/reservations/1/checkout
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "exitTime": "2024-01-15T12:55:00Z",
+  "totalAmount": 15.50,
+  "paymentStatus": "PAID"
+}
+
+### 24. Cancel Reservation
+PATCH {{baseUrl}}/reservations/2/cancel
+Authorization: Bearer {{accessToken}}
+
+### 25. Delete Reservation
+DELETE {{baseUrl}}/reservations/3
+Authorization: Bearer {{accessToken}}
+
+### 26. Test Invalid Vehicle ID
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 99999,
+  "slotId": 1,
+  "startTime": "2024-01-15T10:00:00Z",
+  "endTime": "2024-01-15T12:00:00Z",
+  "entryTime": "2024-01-15T10:05:00Z"
+}
+
+### 27. Test Invalid Parking Slot ID
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 99999,
+  "startTime": "2024-01-15T10:00:00Z",
+  "endTime": "2024-01-15T12:00:00Z",
+  "entryTime": "2024-01-15T10:05:00Z"
+}
+
+### 28. Test Invalid Time Logic (Start >= End)
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 1,
+  "startTime": "2024-01-15T12:00:00Z",
+  "endTime": "2024-01-15T10:00:00Z",
+  "entryTime": "2024-01-15T10:05:00Z"
+}
+
+### 29. Test Invalid Entry Time (Before Start)
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 1,
+  "startTime": "2024-01-15T10:00:00Z",
+  "endTime": "2024-01-15T12:00:00Z",
+  "entryTime": "2024-01-15T09:55:00Z"
+}
+
+### 30. Test Invalid Exit Time (Before Entry)
+PATCH {{baseUrl}}/reservations/1/checkout
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "exitTime": "2024-01-15T09:00:00Z",
+  "totalAmount": 15.50,
+  "paymentStatus": "PAID"
+}
+
+### 31. Test Invalid Status
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 1,
+  "startTime": "2024-01-15T10:00:00Z",
+  "endTime": "2024-01-15T12:00:00Z",
+  "entryTime": "2024-01-15T10:05:00Z",
+  "status": "INVALID_STATUS"
+}
+
+### 32. Test Invalid Payment Status
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 1,
+  "startTime": "2024-01-15T10:00:00Z",
+  "endTime": "2024-01-15T12:00:00Z",
+  "entryTime": "2024-01-15T10:05:00Z",
+  "paymentStatus": "INVALID_PAYMENT_STATUS"
+}
+
+### 33. Test Slot Conflict (Same Slot, Overlapping Time)
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 2,
+  "slotId": 1,
+  "startTime": "2024-01-15T11:00:00Z",
+  "endTime": "2024-01-15T13:00:00Z",
+  "entryTime": "2024-01-15T11:05:00Z"
+}
+
+### 34. Test Checkout Non-Active Reservation
+PATCH {{baseUrl}}/reservations/2/checkout
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "exitTime": "2024-01-15T15:55:00Z",
+  "totalAmount": 20.00,
+  "paymentStatus": "PAID"
+}
+
+### 35. Test Cancel Non-Active Reservation
+PATCH {{baseUrl}}/reservations/1/cancel
+Authorization: Bearer {{accessToken}}
+
+### 36. Test Get Non-existent Reservation
+GET {{baseUrl}}/reservations/99999
+Authorization: Bearer {{accessToken}}
+
+### 37. Test Update Non-existent Reservation
+PATCH {{baseUrl}}/reservations/99999
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "totalAmount": 25.00
+}
+
+### 38. Test Delete Non-existent Reservation
+DELETE {{baseUrl}}/reservations/99999
+Authorization: Bearer {{accessToken}}
+
+### 39. Test Access Without Authentication
+GET {{baseUrl}}/reservations
+
+### 40. Test Access with Invalid Token
+GET {{baseUrl}}/reservations
+Authorization: Bearer invalid-token
+
+### 41. Test Large Pagination
+GET {{baseUrl}}/reservations?page=1&limit=100
+Authorization: Bearer {{accessToken}}
+
+### 42. Test Negative Page Number
+GET {{baseUrl}}/reservations?page=-1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 43. Test Zero Limit
+GET {{baseUrl}}/reservations?page=1&limit=0
+Authorization: Bearer {{accessToken}}
+
+### 44. Test Multiple Filters
+GET {{baseUrl}}/reservations?vehicleId=1&status=ACTIVE&paymentStatus=PENDING&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 45. Test Complex Date Filtering
+GET {{baseUrl}}/reservations?startDateFrom=2024-01-15T00:00:00Z&endDateTo=2024-01-15T23:59:59Z&status=ACTIVE&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 46. Test Empty Search
+GET {{baseUrl}}/reservations?vehicleId=&slotId=&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 47. Test Invalid Date Format
+GET {{baseUrl}}/reservations?startDateFrom=invalid-date&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 48. Test Negative Amount
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 1,
+  "startTime": "2024-01-15T10:00:00Z",
+  "endTime": "2024-01-15T12:00:00Z",
+  "entryTime": "2024-01-15T10:05:00Z",
+  "totalAmount": -10.00
+}
+
+### 49. Test Zero Amount
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 1,
+  "startTime": "2024-01-15T10:00:00Z",
+  "endTime": "2024-01-15T12:00:00Z",
+  "entryTime": "2024-01-15T10:05:00Z",
+  "totalAmount": 0
+}
+
+### 50. Test Complete Workflow
+### Step 1: Create Reservation
+POST {{baseUrl}}/reservations
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleId": 1,
+  "slotId": 1,
+  "startTime": "2024-01-17T10:00:00Z",
+  "endTime": "2024-01-17T12:00:00Z",
+  "entryTime": "2024-01-17T10:05:00Z"
+}
+
+### Step 2: Check Reservation Status
+GET {{baseUrl}}/reservations/active
+Authorization: Bearer {{accessToken}}
+
+### Step 3: Update Reservation
+PATCH {{baseUrl}}/reservations/4
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "totalAmount": 12.50
+}
+
+### Step 4: Checkout Reservation
+PATCH {{baseUrl}}/reservations/4/checkout
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "exitTime": "2024-01-17T11:55:00Z",
+  "totalAmount": 12.50,
+  "paymentStatus": "PAID"
+}
+
+### Step 5: Verify Completion
+GET {{baseUrl}}/reservations/4
+Authorization: Bearer {{accessToken}}

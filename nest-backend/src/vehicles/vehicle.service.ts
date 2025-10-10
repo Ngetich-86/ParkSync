@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, FindManyOptions } from 'typeorm';
-import { Vehicle } from './entities/vehicle.entity';
+import { Vehicle, VehicleType } from './entities/vehicle.entity';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { QueryVehicleDto } from './dto/query-vehicle.dto';
@@ -147,10 +147,10 @@ export class VehicleService {
       await Promise.all([
         this.vehicleRepository.count(),
         this.vehicleRepository.count({
-          where: { vehicleType: 'TWO_WHEELER' },
+          where: { vehicleType: VehicleType.TWO_WHEELER },
         }),
         this.vehicleRepository.count({
-          where: { vehicleType: 'FOUR_WHEELER' },
+          where: { vehicleType: VehicleType.FOUR_WHEELER },
         }),
         this.vehicleRepository.count({
           where: { ownerName: Like('%') },
@@ -165,3 +165,4 @@ export class VehicleService {
     };
   }
 }
+

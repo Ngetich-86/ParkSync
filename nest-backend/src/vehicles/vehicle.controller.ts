@@ -148,3 +148,4 @@ export class VehicleController {
     return this.vehicleService.remove(id);
   }
 }
+

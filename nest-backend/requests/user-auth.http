@@ -82,3 +82,4 @@ Content-Type: {{contentType}}
 ### Replace {{adminAccessToken}} with admin user's access token
 # GET {{baseUrl}}/admin/users
 # Authorization: Bearer {{adminAccessToken}}
+

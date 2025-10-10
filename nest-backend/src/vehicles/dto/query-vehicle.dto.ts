@@ -66,3 +66,4 @@ export class QueryVehicleDto {
   @IsString()
   ownerEmail?: string;
 }
+

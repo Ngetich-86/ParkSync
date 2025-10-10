@@ -1,0 +1,200 @@
+### Vehicle Management Tests
+### Make sure to authenticate first using the auth endpoints to get access tokens
+### Replace {{accessToken}} with a valid JWT access token from authentication
+
+@baseUrl = http://localhost:5000
+@contentType = application/json
+
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc2MDEyNjk4NSwiZXhwIjoxNzYwMTMwNTg1fQ.t4d8SVONI2cR4MBqAwK4QNh7xDkGgjhYnfHVuEpO3Ck
+
+### 1. Create a Four-Wheeler Vehicle
+POST {{baseUrl}}/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "licensePlate": "ABC-1234",
+  "vehicleType": "FOUR_WHEELER",
+  "ownerName": "John Doe",
+  "ownerEmail": "john.doe@example.com",
+  "ownerPhone": "+1234567890"
+}
+
+### 2. Create a Two-Wheeler Vehicle
+POST {{baseUrl}}/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "licensePlate": "XYZ-5678",
+  "vehicleType": "TWO_WHEELER",
+  "ownerName": "Jane Smith",
+  "ownerEmail": "jane.smith@example.com",
+  "ownerPhone": "+1234567891"
+}
+
+### 3. Create Vehicle with Minimal Data
+POST {{baseUrl}}/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "licensePlate": "MIN-9999",
+  "vehicleType": "FOUR_WHEELER"
+}
+
+### 4. Get All Vehicles (with pagination)
+GET {{baseUrl}}/vehicles?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 5. Get All Vehicles with Filtering
+GET {{baseUrl}}/vehicles?vehicleType=FOUR_WHEELER&page=1&limit=5
+Authorization: Bearer {{accessToken}}
+
+### 6. Search Vehicles by License Plate
+GET {{baseUrl}}/vehicles?licensePlate=ABC&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 7. Search Vehicles by Owner Name
+GET {{baseUrl}}/vehicles?ownerName=John&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 8. Get Vehicle by ID
+GET {{baseUrl}}/vehicles/1
+Authorization: Bearer {{accessToken}}
+
+### 9. Get Vehicle by License Plate
+GET {{baseUrl}}/vehicles/license/ABC-1234
+Authorization: Bearer {{accessToken}}
+
+### 10. Update Vehicle Information
+PATCH {{baseUrl}}/vehicles/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "ownerName": "John Updated Doe",
+  "ownerEmail": "john.updated@example.com",
+  "ownerPhone": "+1234567899"
+}
+
+### 11. Update Vehicle Type
+PATCH {{baseUrl}}/vehicles/2
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "vehicleType": "FOUR_WHEELER"
+}
+
+### 12. Get Vehicle Statistics (Admin/Manager only)
+GET {{baseUrl}}/vehicles/stats
+Authorization: Bearer {{accessToken}}
+
+### 13. Delete Vehicle (Admin/Manager only)
+DELETE {{baseUrl}}/vehicles/3
+Authorization: Bearer {{accessToken}}
+
+### 14. Test Invalid License Plate Format
+POST {{baseUrl}}/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "licensePlate": "invalid-format",
+  "vehicleType": "FOUR_WHEELER"
+}
+
+### 15. Test Duplicate License Plate
+POST {{baseUrl}}/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "licensePlate": "ABC-1234",
+  "vehicleType": "TWO_WHEELER"
+}
+
+### 16. Test Invalid Vehicle Type
+POST {{baseUrl}}/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "licensePlate": "INV-0001",
+  "vehicleType": "INVALID_TYPE"
+}
+
+### 17. Test Invalid Email Format
+POST {{baseUrl}}/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "licensePlate": "INV-0002",
+  "vehicleType": "FOUR_WHEELER",
+  "ownerEmail": "invalid-email"
+}
+
+### 18. Test Invalid Phone Format
+POST {{baseUrl}}/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "licensePlate": "INV-0003",
+  "vehicleType": "FOUR_WHEELER",
+  "ownerPhone": "invalid-phone"
+}
+
+### 19. Test Get Non-existent Vehicle
+GET {{baseUrl}}/vehicles/99999
+Authorization: Bearer {{accessToken}}
+
+### 20. Test Update Non-existent Vehicle
+PATCH {{baseUrl}}/vehicles/99999
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+{
+  "ownerName": "Updated Name"
+}
+
+### 21. Test Delete Non-existent Vehicle
+DELETE {{baseUrl}}/vehicles/99999
+Authorization: Bearer {{accessToken}}
+
+### 22. Test Access Without Authentication
+GET {{baseUrl}}/vehicles
+
+### 23. Test Access with Invalid Token
+GET {{baseUrl}}/vehicles
+Authorization: Bearer invalid-token
+
+### 24. Test Large Pagination
+GET {{baseUrl}}/vehicles?page=1&limit=100
+Authorization: Bearer {{accessToken}}
+
+### 25. Test Negative Page Number
+GET {{baseUrl}}/vehicles?page=-1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 26. Test Zero Limit
+GET {{baseUrl}}/vehicles?page=1&limit=0
+Authorization: Bearer {{accessToken}}
+
+### 27. Test Multiple Filters
+GET {{baseUrl}}/vehicles?vehicleType=FOUR_WHEELER&ownerName=John&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 28. Test Empty Search
+GET {{baseUrl}}/vehicles?licensePlate=&ownerName=&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 29. Test Special Characters in Search
+GET {{baseUrl}}/vehicles?ownerName=John%20Doe&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### 30. Test Case Sensitivity
+GET {{baseUrl}}/vehicles?licensePlate=abc-1234&page=1&limit=10
+Authorization: Bearer {{accessToken}}
