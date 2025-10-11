@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, FindManyOptions } from 'typeorm';
-import { ParkingSlot, SlotType, ReservationType } from './entities/parking-slot.entity';
+import { ParkingSlot, VehicleType, ReservationType } from './entities/parking-slot.entity';
 import { CreateParkingSlotDto } from './dto/create-parking-slot.dto';
 import { UpdateParkingSlotDto } from './dto/update-parking-slot.dto';
 import { QueryParkingSlotDto } from './dto/query-parking-slot.dto';
@@ -121,7 +121,7 @@ export class ParkingSlotService {
   }
 
   async findAvailableSlots(
-    slotType?: SlotType,
+    slotType?: VehicleType,
     floorId?: number,
   ): Promise<ParkingSlot[]> {
     const where: any = {
@@ -213,8 +213,8 @@ export class ParkingSlotService {
       this.parkingSlotRepository.count(),
       this.parkingSlotRepository.count({ where: { isOccupied: true } }),
       this.parkingSlotRepository.count({ where: { isMaintenance: true } }),
-      this.parkingSlotRepository.count({ where: { slotType: SlotType.TWO_WHEELER } }),
-      this.parkingSlotRepository.count({ where: { slotType: SlotType.FOUR_WHEELER } }),
+      this.parkingSlotRepository.count({ where: { slotType: VehicleType.TWO_WHEELER } }),
+      this.parkingSlotRepository.count({ where: { slotType: VehicleType.FOUR_WHEELER } }),
       this.parkingSlotRepository.count({ where: { reservationType: ReservationType.RESERVED } }),
       this.parkingSlotRepository.count({ where: { reservationType: ReservationType.PUBLIC } }),
     ]);
@@ -252,8 +252,8 @@ export class ParkingSlotService {
       this.parkingSlotRepository.count({ where: { floorId } }),
       this.parkingSlotRepository.count({ where: { floorId, isOccupied: true } }),
       this.parkingSlotRepository.count({ where: { floorId, isMaintenance: true } }),
-      this.parkingSlotRepository.count({ where: { floorId, slotType: SlotType.TWO_WHEELER } }),
-      this.parkingSlotRepository.count({ where: { floorId, slotType: SlotType.FOUR_WHEELER } }),
+      this.parkingSlotRepository.count({ where: { floorId, slotType: VehicleType.TWO_WHEELER } }),
+      this.parkingSlotRepository.count({ where: { floorId, slotType: VehicleType.FOUR_WHEELER } }),
     ]);
 
     const availableSlots = totalSlots - occupiedSlots - maintenanceSlots;
@@ -269,3 +269,4 @@ export class ParkingSlotService {
     };
   }
 }
+

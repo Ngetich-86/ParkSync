@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsEnum, IsNumber, IsDateString, Min, Max } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { ReservationStatus, PaymentStatus } from '../entities/reservation.entity';
+import { ReservationStatus } from '../entities/reservation.entity';
+import { PaymentStatus } from '../../common/enums';
 
 export class QueryReservationDto {
   @ApiProperty({
@@ -106,3 +107,4 @@ export class QueryReservationDto {
   @IsDateString()
   endDateTo?: string;
 }
+

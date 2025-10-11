@@ -18,3 +18,4 @@ export class UpdateSlotStatusDto {
   @IsBoolean()
   isMaintenance: boolean;
 }
+

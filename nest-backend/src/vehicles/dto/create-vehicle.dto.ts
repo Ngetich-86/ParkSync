@@ -69,3 +69,4 @@ export class CreateVehicleDto {
   ownerPhone?: string;
 }
 
+

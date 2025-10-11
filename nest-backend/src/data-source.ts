@@ -4,6 +4,8 @@ import { User } from './users/entities/user.entities';
 import { Vehicle } from './vehicles/entities/vehicle.entity';
 import { ParkingSlot } from './parking-slot/entities/parking-slot.entity';
 import { Reservation } from './reservations/entities/reservation.entity';
+import { ParkingSession } from './parking-session/entities/parking-session.entity';
+import { Payment } from './payments/entities/payment.entity';
 
 // Load environment variables
 config({
@@ -18,7 +20,7 @@ if (!databaseUrl) {
 export const AppDataSource = new DataSource({
   type: 'postgres',
   url: databaseUrl,
-  entities: [User, Vehicle, ParkingSlot, Reservation],
+  entities: [User, Vehicle, ParkingSlot, Reservation, ParkingSession, Payment],
   migrations: ['src/migrations/*.ts'],
   synchronize: false, // Always false for migrations
   logging: true,

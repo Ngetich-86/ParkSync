@@ -198,3 +198,4 @@ Authorization: Bearer {{accessToken}}
 ### 30. Test Case Sensitivity
 GET {{baseUrl}}/vehicles?licensePlate=abc-1234&page=1&limit=10
 Authorization: Bearer {{accessToken}}
+

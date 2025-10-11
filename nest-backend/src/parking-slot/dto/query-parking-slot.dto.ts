@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsEnum, IsString, IsNumber, IsBoolean, Min, Max } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { SlotType, ReservationType } from '../entities/parking-slot.entity';
+import { VehicleType, ReservationType } from '../entities/parking-slot.entity';
 
 export class QueryParkingSlotDto {
   @ApiProperty({
@@ -52,12 +52,12 @@ export class QueryParkingSlotDto {
 
   @ApiProperty({
     description: 'Filter by slot type',
-    enum: SlotType,
+    enum: VehicleType,
     required: false,
   })
   @IsOptional()
-  @IsEnum(SlotType)
-  slotType?: SlotType;
+  @IsEnum(VehicleType)
+  slotType?: VehicleType;
 
   @ApiProperty({
     description: 'Filter by reservation type',
@@ -88,3 +88,4 @@ export class QueryParkingSlotDto {
   @IsBoolean()
   isMaintenance?: boolean;
 }
+

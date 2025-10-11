@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsDateString, IsNumber, IsEnum, Min } from 'class-validator';
-import { PaymentStatus } from '../entities/reservation.entity';
+import { PaymentStatus } from '../../common/enums';
 
 export class CheckoutReservationDto {
   @ApiProperty({
@@ -23,9 +23,10 @@ export class CheckoutReservationDto {
   @ApiProperty({
     description: 'Payment status',
     enum: PaymentStatus,
-    example: PaymentStatus.PAID,
+    example: PaymentStatus.SUCCESS,
   })
   @IsNotEmpty()
   @IsEnum(PaymentStatus)
   paymentStatus: PaymentStatus;
 }
+

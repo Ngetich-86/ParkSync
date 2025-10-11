@@ -9,7 +9,7 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
-import { SlotType, ReservationType } from '../entities/parking-slot.entity';
+import { VehicleType, ReservationType } from '../entities/parking-slot.entity';
 
 export class CreateParkingSlotDto {
   @ApiProperty({
@@ -34,11 +34,11 @@ export class CreateParkingSlotDto {
 
   @ApiProperty({
     description: 'Type of vehicle that can park in this slot',
-    enum: SlotType,
-    example: SlotType.FOUR_WHEELER,
+    enum: VehicleType,
+    example: VehicleType.FOUR_WHEELER,
   })
-  @IsEnum(SlotType)
-  slotType: SlotType;
+  @IsEnum(VehicleType)
+  slotType: VehicleType;
 
   @ApiProperty({
     description: 'Reservation type of the parking slot',
@@ -66,3 +66,4 @@ export class CreateParkingSlotDto {
   @IsBoolean()
   isMaintenance?: boolean;
 }
+

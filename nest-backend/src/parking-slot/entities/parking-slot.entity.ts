@@ -8,8 +8,9 @@ import {
   JoinColumn,
   Index,
 } from 'typeorm';
+// SlotType is now VehicleType - using local enum
 
-export enum SlotType {
+export enum VehicleType {
   TWO_WHEELER = 'TWO_WHEELER',
   FOUR_WHEELER = 'FOUR_WHEELER',
 }
@@ -33,10 +34,10 @@ export class ParkingSlot {
 
   @Column({
     type: 'enum',
-    enum: SlotType,
-    default: SlotType.FOUR_WHEELER,
+    enum: VehicleType,
+    default: VehicleType.FOUR_WHEELER,
   })
-  slotType: SlotType;
+  slotType: VehicleType;
 
   @Column({
     type: 'enum',
@@ -64,3 +65,4 @@ export class ParkingSlot {
   })
   updatedAt: Date;
 }
+

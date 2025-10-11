@@ -1,17 +1,23 @@
 import { MiddlewareConsumer,Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { DatabaseModule } from './database/database.module';
+import { ResetDbModule } from './database/reset-db.module';
 import { HealthModule } from './health-check/health.module';
 import { AuthModule } from './auth/auth.module';
 import { VehicleModule } from './vehicles/vehicle.module';
 import { ParkingSlotModule } from './parking-slot/parking-slot.module';
 import { ReservationModule } from './reservations/reservation.module';
+import { ParkingSessionModule } from './parking-session/parking-session.module';
+import { PaymentsModule } from './payments/payments.module';
+import { PaymentModule } from './payment/payment.module';
+import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerMiddleware } from './logger.middleware';
 import { APP_GUARD } from '@nestjs/core';
 // import { AtGuard } from './auth/guards/at.guards';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigService } from '@nestjs/config';
 
 
@@ -22,11 +28,17 @@ import { ConfigService } from '@nestjs/config';
       envFilePath: '.env',
     }),
     DatabaseModule,
+    ResetDbModule,
+    CommonModule,
     AuthModule,
     VehicleModule,
     ParkingSlotModule,
     ReservationModule,
+    ParkingSessionModule,
+    PaymentsModule,
+    PaymentModule,
     HealthModule,
+    EventEmitterModule.forRoot(),
     // TypeOrmModule.forFeature([User]), 
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],

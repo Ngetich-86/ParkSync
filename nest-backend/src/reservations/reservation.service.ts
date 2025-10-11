@@ -6,7 +6,8 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between, FindManyOptions } from 'typeorm';
-import { Reservation, ReservationStatus, PaymentStatus } from './entities/reservation.entity';
+import { Reservation, ReservationStatus } from './entities/reservation.entity';
+import { PaymentStatus } from '../common/enums';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { QueryReservationDto } from './dto/query-reservation.dto';
@@ -301,7 +302,7 @@ export class ReservationService {
       this.reservationRepository.count({ where: { status: ReservationStatus.CANCELLED } }),
       this.reservationRepository.count({ where: { status: ReservationStatus.EXPIRED } }),
       this.reservationRepository.count({ where: { paymentStatus: PaymentStatus.PENDING } }),
-      this.reservationRepository.count({ where: { paymentStatus: PaymentStatus.PAID } }),
+      this.reservationRepository.count({ where: { paymentStatus: PaymentStatus.SUCCESS } }),
       this.reservationRepository.count({ where: { paymentStatus: PaymentStatus.FAILED } }),
     ]);
 
@@ -310,7 +311,7 @@ export class ReservationService {
       .createQueryBuilder('reservation')
       .select('SUM(reservation.totalAmount)', 'total')
       .where('reservation.status = :status', { status: ReservationStatus.COMPLETED })
-      .andWhere('reservation.paymentStatus = :paymentStatus', { paymentStatus: PaymentStatus.PAID })
+      .andWhere('reservation.paymentStatus = :paymentStatus', { paymentStatus: PaymentStatus.SUCCESS })
       .getRawOne();
 
     const totalRevenue = parseFloat(revenueResult?.total || '0');
@@ -344,3 +345,4 @@ export class ReservationService {
     });
   }
 }
+

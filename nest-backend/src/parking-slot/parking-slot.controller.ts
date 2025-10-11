@@ -16,7 +16,7 @@ import { CreateParkingSlotDto } from './dto/create-parking-slot.dto';
 import { UpdateParkingSlotDto } from './dto/update-parking-slot.dto';
 import { QueryParkingSlotDto } from './dto/query-parking-slot.dto';
 import { UpdateSlotStatusDto } from './dto/update-slot-status.dto';
-import { ParkingSlot, SlotType } from './entities/parking-slot.entity';
+import { ParkingSlot, VehicleType } from './entities/parking-slot.entity';
 import { AtGuard } from '../auth/guards/at.guards';
 import { RolesGuard } from '../auth/guards/roles.guards';
 import { Roles } from '../auth/decorators/role.decorator';
@@ -76,7 +76,7 @@ export class ParkingSlotController {
     type: [ParkingSlot],
   })
   findAvailableSlots(
-    @Query('slotType') slotType?: SlotType,
+    @Query('slotType') slotType?: VehicleType,
     @Query('floorId', ParseIntPipe) floorId?: number,
   ) {
     return this.parkingSlotService.findAvailableSlots(slotType, floorId);
@@ -211,3 +211,4 @@ export class ParkingSlotController {
     return this.parkingSlotService.remove(id);
   }
 }
+

@@ -310,3 +310,4 @@ Authorization: Bearer {{accessToken}}
 {
   "slotNumber": "A-002"
 }
+

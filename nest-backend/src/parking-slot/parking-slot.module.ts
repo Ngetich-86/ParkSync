@@ -12,3 +12,4 @@ import { User } from '../users/entities/user.entities';
   exports: [ParkingSlotService],
 })
 export class ParkingSlotModule {}
+

@@ -394,3 +394,4 @@ Authorization: Bearer {{accessToken}}
 ### Step 5: Verify Completion
 GET {{baseUrl}}/reservations/4
 Authorization: Bearer {{accessToken}}
+
