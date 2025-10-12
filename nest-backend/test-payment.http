@@ -1,0 +1,127 @@
+### ParkSync Payment Integration Test File
+### Make sure to set your JWT token and Razorpay credentials
+
+@baseUrl = http://localhost:3000
+@token = your_jwt_token_here
+
+### 1. Create Payment Order
+POST {{baseUrl}}/payments/create
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "amount": 150.50,
+  "currency": "INR",
+  "customerName": "John Doe",
+  "customerEmail": "john.doe@example.com",
+  "customerPhone": "+919876543210",
+  "notes": {
+    "parkingSessionId": "session-uuid-here",
+    "slotNumber": "A-001",
+    "vehicleNumber": "KA01AB1234"
+  }
+}
+
+### 2. Verify Payment (After successful Razorpay payment)
+POST {{baseUrl}}/payments/verify
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "razorpayOrderId": "order_1234567890",
+  "razorpayPaymentId": "pay_1234567890",
+  "razorpaySignature": "signature_1234567890"
+}
+
+### 3. Get Payment by ID
+GET {{baseUrl}}/payments/payment-uuid-here
+Authorization: Bearer {{token}}
+
+### 4. Get Payment by Transaction ID
+GET {{baseUrl}}/payments/transaction/order_1234567890
+Authorization: Bearer {{token}}
+
+### 5. Get All Payments (with pagination)
+GET {{baseUrl}}/payments?page=1&limit=10
+Authorization: Bearer {{token}}
+
+### 6. Get Payments by Status
+GET {{baseUrl}}/payments/status/SUCCESS
+Authorization: Bearer {{token}}
+
+### 7. Get Payment Statistics
+GET {{baseUrl}}/payments/stats
+Authorization: Bearer {{token}}
+
+### 8. Refund Payment
+POST {{baseUrl}}/payments/refund
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "paymentId": "payment-uuid-here",
+  "amount": 100.50,
+  "reason": "Customer requested partial refund"
+}
+
+### 9. Razorpay Webhook (for testing)
+POST {{baseUrl}}/payments/webhook
+Content-Type: application/json
+X-Razorpay-Signature: your_webhook_signature_here
+
+{
+  "event": "payment.captured",
+  "payload": {
+    "payment": {
+      "entity": {
+        "id": "pay_1234567890",
+        "amount": 15050,
+        "currency": "INR",
+        "status": "captured",
+        "order_id": "order_1234567890",
+        "method": "card",
+        "description": "Parking Payment",
+        "created_at": 1640995200
+      }
+    }
+  }
+}
+
+### 10. Test Payment Creation with Different Amounts
+POST {{baseUrl}}/payments/create
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "amount": 75.00,
+  "currency": "INR",
+  "customerName": "Jane Smith",
+  "customerEmail": "jane.smith@example.com",
+  "customerPhone": "+919876543211",
+  "notes": {
+    "parkingSessionId": "session-uuid-2",
+    "slotNumber": "B-002",
+    "vehicleNumber": "KA02CD5678",
+    "duration": "2 hours"
+  }
+}
+
+### 11. Test Payment Creation for Different Vehicle Types
+POST {{baseUrl}}/payments/create
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "amount": 25.00,
+  "currency": "INR",
+  "customerName": "Mike Johnson",
+  "customerEmail": "mike.johnson@example.com",
+  "customerPhone": "+919876543212",
+  "notes": {
+    "parkingSessionId": "session-uuid-3",
+    "slotNumber": "M-001",
+    "vehicleNumber": "KA03EF9012",
+    "vehicleType": "TWO_WHEELER",
+    "duration": "1 hour"
+  }
+}
