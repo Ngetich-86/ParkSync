@@ -5,7 +5,7 @@ import { logout } from '../features/auth/authSlice';
 
 // Create axios instance
 const api = axios.create({
-  baseURL: `${ApiDomain}/api`,
+  baseURL: `${ApiDomain}`,
   timeout: 10000,
 });
 

@@ -6,7 +6,7 @@
 @baseUrl = http://localhost:5000
 @contentType = application/json
 
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc2MDEyNjk4NSwiZXhwIjoxNzYwMTMwNTg1fQ.t4d8SVONI2cR4MBqAwK4QNh7xDkGgjhYnfHVuEpO3Ck
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjAzMDQ2MjYsImV4cCI6MTc2MDMwODIyNn0.KvJaIv8FUI59c1D9BaqMPN0EnTAMFDy2iBqrc0nT3Sk
 
 ### 1. Create a New Reservation
 POST {{baseUrl}}/reservations

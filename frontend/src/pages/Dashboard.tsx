@@ -6,6 +6,7 @@ import { fetchCurrentSessionStart, fetchCurrentSessionSuccess, fetchCurrentSessi
 import { slotService } from '../services/slotService';
 import { parkingSessionService } from '../services/parkingSessionService';
 import { Link } from 'react-router-dom';
+import { ParkingCircle, CheckCircle, Car, Clock, Calendar, Truck } from 'lucide-react';
 
 const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -53,7 +54,7 @@ const Dashboard = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-blue-100">
-                <span className="text-2xl">🅿️</span>
+                <ParkingCircle className="w-6 h-6 text-blue-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Total Slots</p>
@@ -67,7 +68,7 @@ const Dashboard = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-green-100">
-                <span className="text-2xl">✅</span>
+                <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Available</p>
@@ -81,7 +82,7 @@ const Dashboard = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-red-100">
-                <span className="text-2xl">🚗</span>
+                <Car className="w-6 h-6 text-red-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Occupied</p>
@@ -95,7 +96,7 @@ const Dashboard = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-purple-100">
-                <span className="text-2xl">⏱️</span>
+                <Clock className="w-6 h-6 text-purple-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Your Session</p>
@@ -142,7 +143,7 @@ const Dashboard = () => {
           >
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-green-100">
-                <span className="text-2xl">🚗</span>
+                <Car className="w-6 h-6 text-green-600" />
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-semibold text-gray-900">Park Vehicle</h3>
@@ -157,7 +158,7 @@ const Dashboard = () => {
           >
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-blue-100">
-                <span className="text-2xl">🔐</span>
+                <Calendar className="w-6 h-6 text-blue-600" />
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-semibold text-gray-900">Reservations</h3>
@@ -172,7 +173,7 @@ const Dashboard = () => {
           >
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-purple-100">
-                <span className="text-2xl">🚙</span>
+                <Truck className="w-6 h-6 text-purple-600" />
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-semibold text-gray-900">My Vehicles</h3>

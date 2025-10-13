@@ -5,9 +5,7 @@
 @baseUrl = http://localhost:5000
 @contentType = application/json
 
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc2MDEyNjk4NSwiZXhwIjoxNzYwMTMwNTg1fQ.t4d8SVONI2cR4MBqAwK4QNh7xDkGgjhYnfHVuEpO3Ck
-
-### 1. Create a Four-Wheeler Public Parking Slot
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjAzNDQ4MzIsImV4cCI6MTc2MDM0ODQzMn0.Kfi3O4QiVcW2J_OCQPGk79fJqm5RMXjd_3ha1brdDVs
 POST {{baseUrl}}/parking-slots
 Content-Type: {{contentType}}
 Authorization: Bearer {{accessToken}}

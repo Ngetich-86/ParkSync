@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../app/store';
 import { logout } from '../features/auth/authSlice';
+import { BarChart3, Car, LogOut, Truck, Calendar, Bell, Menu } from 'lucide-react';
 
 const HeaderGlass = () => {
   const location = useLocation();
@@ -12,11 +13,11 @@ const HeaderGlass = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: '📊' },
-    { path: '/park', label: 'Park Vehicle', icon: '🚗' },
-    { path: '/exit', label: 'Exit Vehicle', icon: '🚪' },
-    { path: '/vehicles', label: 'My Vehicles', icon: '🚙' },
-    { path: '/reservations', label: 'Reservations', icon: '🔐' },
+    { path: '/dashboard', label: 'Dashboard', icon: BarChart3 },
+    { path: '/park', label: 'Park Vehicle', icon: Car },
+    { path: '/exit', label: 'Exit Vehicle', icon: LogOut },
+    { path: '/vehicles', label: 'My Vehicles', icon: Truck },
+    { path: '/reservations', label: 'Reservations', icon: Calendar },
   ];
 
   const handleLogout = () => {
@@ -31,7 +32,7 @@ const HeaderGlass = () => {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">🅿️</span>
+              <Car className="w-6 h-6 text-white" />
             </div>
             <div>
               <h1 className="text-gray-900 font-bold text-xl">GarageManager</h1>
@@ -53,9 +54,7 @@ const HeaderGlass = () => {
                   }
                 `}
               >
-                <span className="text-lg transition-transform group-hover:scale-110">
-                  {item.icon}
-                </span>
+                <item.icon className="w-5 h-5 transition-transform group-hover:scale-110" />
                 <span className="font-medium">{item.label}</span>
                 
                 {/* Hover effect line */}
@@ -71,9 +70,7 @@ const HeaderGlass = () => {
           <div className="flex items-center space-x-3">
             {/* Notification Bell */}
             <button className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM10.24 8.56a5.97 5.97 0 01-4.66-6.24M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <Bell className="w-6 h-6" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
 
@@ -105,9 +102,7 @@ const HeaderGlass = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-white/60 hover:text-blue-600 transition-colors"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              <Menu className="w-6 h-6" />
             </button>
           </div>
         </div>
@@ -129,7 +124,7 @@ const HeaderGlass = () => {
                     }
                   `}
                 >
-                  <span className="text-xl">{item.icon}</span>
+                  <item.icon className="w-5 h-5" />
                   <span className="font-medium">{item.label}</span>
                 </Link>
               ))}

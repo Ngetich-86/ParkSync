@@ -43,12 +43,16 @@ const ParkVehicle = () => {
 
   const handleParkVehicle = async () => {
     if (!selectedVehicle) return;
+    if (!selectedSlot && selectedSlot !== 0) {
+      toast.error('Please select a slot or choose Auto Assign later (not supported yet).');
+      return;
+    }
 
     try {
       dispatch(startSessionStart());
       const sessionData = {
         vehicle_id: selectedVehicle,
-        slot_id: selectedSlot || undefined,
+        slot_id: selectedSlot as number,
       };
       const session = await parkingSessionService.startSession(sessionData);
       dispatch(startSessionSuccess(session));
@@ -84,7 +88,7 @@ const ParkVehicle = () => {
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                 <p className="mt-2 text-gray-600">Loading vehicles...</p>
               </div>
-            ) : vehicles.length === 0 ? (
+            ) : !Array.isArray(vehicles) || vehicles.length === 0 ? (
               <div className="text-center py-8">
                 <div className="text-4xl mb-4">🚗</div>
                 <p className="text-gray-600 mb-4">No vehicles found</p>
@@ -97,7 +101,7 @@ const ParkVehicle = () => {
               </div>
             ) : (
               <div className="space-y-3">
-                {vehicles.map((vehicle) => (
+                {Array.isArray(vehicles) && vehicles.map((vehicle) => (
                   <div
                     key={vehicle.vehicle_id}
                     onClick={() => setSelectedVehicle(vehicle.vehicle_id)}
@@ -133,7 +137,7 @@ const ParkVehicle = () => {
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                 <p className="mt-2 text-gray-600">Loading slots...</p>
               </div>
-            ) : availableSlots.length === 0 ? (
+            ) : !Array.isArray(availableSlots) || availableSlots.length === 0 ? (
               <div className="text-center py-8">
                 <div className="text-4xl mb-4">🅿️</div>
                 <p className="text-gray-600">No available slots</p>
@@ -158,7 +162,7 @@ const ParkVehicle = () => {
                     </div>
                   </div>
                 </div>
-                {availableSlots.map((slot) => (
+                {Array.isArray(availableSlots) && availableSlots.map((slot) => (
                   <div
                     key={slot.slot_id}
                     onClick={() => setSelectedSlot(slot.slot_id)}

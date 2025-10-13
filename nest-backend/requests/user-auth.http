@@ -8,6 +8,8 @@
 
 @baseUrl = http://localhost:5000
 @contentType = application/json
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc2MDI3NDEyMiwiZXhwIjoxNzYwMjc3NzIyfQ.FghOy99bpMsK1BPrdNC1UcnaBuAIPNIT9N5-qvweQVU
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc2MDI3NDEyMiwiZXhwIjoxNzYwODc4OTIyfQ.AT0UluAMmnOwQltfFmxsbbs5A3c2LsKPxz0_eKzfYDk
 
 ### 1. Health Check
 GET {{baseUrl}}/health
@@ -76,6 +78,15 @@ Content-Type: {{contentType}}
   "first_name": "Admin",
   "last_name": "User",
   "phone_number": "+1234567891"
+}
+
+### 10. Admin Sign In
+POST {{baseUrl}}/auth/signin
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@example.com",
+  "password": "admin123"
 }
 
 ### 11. Test Role-Based Access (if you have role-protected routes)

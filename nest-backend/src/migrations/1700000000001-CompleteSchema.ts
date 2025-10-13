@@ -4,15 +4,15 @@ export class CompleteSchema1700000000001 implements MigrationInterface {
   name = 'CompleteSchema1700000000001';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    // Create enums
-    await queryRunner.query(`CREATE TYPE "public"."user_role_enum" AS ENUM('superadmin', 'admin', 'manager', 'attendant', 'customer')`);
-    await queryRunner.query(`CREATE TYPE "public"."role_enum" AS ENUM('ADMIN', 'USER')`);
-    await queryRunner.query(`CREATE TYPE "public"."slot_type_enum" AS ENUM('RESERVED', 'NON_RESERVED')`);
-    await queryRunner.query(`CREATE TYPE "public"."payment_status_enum" AS ENUM('PENDING', 'SUCCESS', 'FAILED')`);
-    await queryRunner.query(`CREATE TYPE "public"."notification_type_enum" AS ENUM('PARKED', 'RESERVED', 'SLOT_VIOLATION')`);
-    await queryRunner.query(`CREATE TYPE "public"."vehicle_type_enum" AS ENUM('TWO_WHEELER', 'FOUR_WHEELER')`);
-    await queryRunner.query(`CREATE TYPE "public"."reservation_type_enum" AS ENUM('RESERVED', 'PUBLIC')`);
-    await queryRunner.query(`CREATE TYPE "public"."reservation_status_enum" AS ENUM('ACTIVE', 'COMPLETED', 'CANCELLED', 'EXPIRED')`);
+    // Create enums (with IF NOT EXISTS check)
+    await queryRunner.query(`CREATE TYPE IF NOT EXISTS "public"."user_role_enum" AS ENUM('superadmin', 'admin', 'manager', 'attendant', 'customer')`);
+    await queryRunner.query(`CREATE TYPE IF NOT EXISTS "public"."role_enum" AS ENUM('ADMIN', 'USER')`);
+    await queryRunner.query(`CREATE TYPE IF NOT EXISTS "public"."slot_type_enum" AS ENUM('RESERVED', 'NON_RESERVED')`);
+    await queryRunner.query(`CREATE TYPE IF NOT EXISTS "public"."payment_status_enum" AS ENUM('PENDING', 'SUCCESS', 'FAILED')`);
+    await queryRunner.query(`CREATE TYPE IF NOT EXISTS "public"."notification_type_enum" AS ENUM('PARKED', 'RESERVED', 'SLOT_VIOLATION')`);
+    await queryRunner.query(`CREATE TYPE IF NOT EXISTS "public"."vehicle_type_enum" AS ENUM('TWO_WHEELER', 'FOUR_WHEELER')`);
+    await queryRunner.query(`CREATE TYPE IF NOT EXISTS "public"."reservation_type_enum" AS ENUM('RESERVED', 'PUBLIC')`);
+    await queryRunner.query(`CREATE TYPE IF NOT EXISTS "public"."reservation_status_enum" AS ENUM('ACTIVE', 'COMPLETED', 'CANCELLED', 'EXPIRED')`);
 
     // Create user table (if not exists)
     const userTableExists = await queryRunner.hasTable('user');

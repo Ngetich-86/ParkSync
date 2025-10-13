@@ -175,12 +175,12 @@ const VehiclesPage = () => {
           </div>
         )}
 
-        {loading && !vehicles.length ? (
+        {loading && (!Array.isArray(vehicles) || !vehicles.length) ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
             <p className="mt-2 text-gray-600">Loading vehicles...</p>
           </div>
-        ) : vehicles.length === 0 ? (
+        ) : !Array.isArray(vehicles) || vehicles.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🚗</div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">No vehicles found</h3>
@@ -194,7 +194,7 @@ const VehiclesPage = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {vehicles.map((vehicle) => (
+            {Array.isArray(vehicles) && vehicles.map((vehicle) => (
               <div key={vehicle.vehicle_id} className="bg-white rounded-lg shadow p-6">
                 <div className="flex items-center mb-4">
                   <div className="text-4xl mr-4">

@@ -70,7 +70,7 @@ const ReservationList = () => {
           </Link>
         </div>
 
-        {reservations.length === 0 ? (
+        {!Array.isArray(reservations) || reservations.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🔐</div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">No reservations found</h3>
@@ -109,7 +109,7 @@ const ReservationList = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {reservations.map((reservation) => (
+                  {Array.isArray(reservations) && reservations.map((reservation) => (
                     <tr key={reservation.reservation_id}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">

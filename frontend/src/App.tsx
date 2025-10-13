@@ -1,7 +1,5 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
-import type { RootState } from './app/store';
 import HeaderGlass from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/auth/LoginPage';
@@ -15,16 +13,22 @@ import CreateReservation from './pages/reservation/CreateReservation';
 import ReservationList from './pages/reservation/ReservationList';
 
 function App() {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-
   const router = createBrowserRouter([
     {
       path: '/login',
-      element: isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />,
+      element: (
+        <ProtectedRoute requireAuth={false}>
+          <LoginPage />
+        </ProtectedRoute>
+      ),
     },
     {
       path: '/register',
-      element: isAuthenticated ? <Navigate to="/dashboard" replace /> : <RegisterPage />,
+      element: (
+        <ProtectedRoute requireAuth={false}>
+          <RegisterPage />
+        </ProtectedRoute>
+      ),
     },
     {
       path: '/',

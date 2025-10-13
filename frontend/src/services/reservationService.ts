@@ -11,21 +11,66 @@ export interface CreateReservationData {
 export const reservationService = {
   getReservations: async (): Promise<Reservation[]> => {
     const response = await api.get('/reservations');
-    return response.data;
+    // Handle paginated response and map to frontend shape
+    const items = Array.isArray(response.data) ? response.data : response.data.data || [];
+    return items.map((raw: any): Reservation => ({
+      reservation_id: raw.reservationId,
+      user_id: raw.userId ?? 0,
+      vehicle_id: raw.vehicleId,
+      slot_id: raw.parkingSlotId ?? raw.slotId,
+      start_time: raw.startTime,
+      end_time: raw.endTime,
+      status: (raw.status || 'active').toString().toLowerCase(),
+      created_at: raw.createdAt,
+      updated_at: raw.updatedAt,
+    }));
   },
 
   createReservation: async (reservationData: CreateReservationData): Promise<Reservation> => {
     const response = await api.post('/reservations', reservationData);
-    return response.data;
+    const raw = response.data;
+    return {
+      reservation_id: raw.reservationId,
+      user_id: raw.userId ?? 0,
+      vehicle_id: raw.vehicleId,
+      slot_id: raw.parkingSlotId ?? raw.slotId,
+      start_time: raw.startTime,
+      end_time: raw.endTime,
+      status: (raw.status || 'active').toString().toLowerCase(),
+      created_at: raw.createdAt,
+      updated_at: raw.updatedAt,
+    } as Reservation;
   },
 
   cancelReservation: async (reservationId: number): Promise<Reservation> => {
     const response = await api.put(`/reservations/${reservationId}/cancel`);
-    return response.data;
+    const raw = response.data;
+    return {
+      reservation_id: raw.reservationId,
+      user_id: raw.userId ?? 0,
+      vehicle_id: raw.vehicleId,
+      slot_id: raw.parkingSlotId ?? raw.slotId,
+      start_time: raw.startTime,
+      end_time: raw.endTime,
+      status: (raw.status || 'active').toString().toLowerCase(),
+      created_at: raw.createdAt,
+      updated_at: raw.updatedAt,
+    } as Reservation;
   },
 
   getReservationById: async (reservationId: number): Promise<Reservation> => {
     const response = await api.get(`/reservations/${reservationId}`);
-    return response.data;
+    const raw = response.data;
+    return {
+      reservation_id: raw.reservationId,
+      user_id: raw.userId ?? 0,
+      vehicle_id: raw.vehicleId,
+      slot_id: raw.parkingSlotId ?? raw.slotId,
+      start_time: raw.startTime,
+      end_time: raw.endTime,
+      status: (raw.status || 'active').toString().toLowerCase(),
+      created_at: raw.createdAt,
+      updated_at: raw.updatedAt,
+    } as Reservation;
   },
 };
