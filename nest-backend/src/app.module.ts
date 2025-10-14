@@ -15,7 +15,10 @@ import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerMiddleware } from './logger.middleware';
 import { APP_GUARD } from '@nestjs/core';
-// import { AtGuard } from './auth/guards/at.guards';
+import { EmailModule } from './notifications/email.module';
+import { User } from './users/entities/user.entities';
+import { AtGuard } from './auth/guards/at.guards';
+import { RolesGuard } from './auth/guards/roles.guards';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigService } from '@nestjs/config';
@@ -39,7 +42,8 @@ import { ConfigService } from '@nestjs/config';
     PaymentModule,
     HealthModule,
     EventEmitterModule.forRoot(),
-    // TypeOrmModule.forFeature([User]), 
+    EmailModule,
+    TypeOrmModule.forFeature([User]), 
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -59,14 +63,14 @@ import { ConfigService } from '@nestjs/config';
   ],
   controllers: [AppController],
   providers: [
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AtGuard,
-    // },
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // }
+    {
+      provide: APP_GUARD,
+      useClass: AtGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
 })
 export class AppModule implements NestModule {
