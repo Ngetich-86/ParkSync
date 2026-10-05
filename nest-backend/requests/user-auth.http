@@ -1,7 +1,5 @@
 ### User Authentication Tests
 ### Make sure to set your environment variables in .env file:
-### JWT_ACCESS_TOKEN_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc1OTg3MzQ2OSwiZXhwIjoxNzU5ODc3MDY5fQ.5vGcPVtZG207aa6zgnpCR3mqJ3THds1hCcJEIf94LTM"
-### JWT_REFRESH_TOKEN_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc1OTg3MzQ2OSwiZXhwIjoxNzYwNDc4MjY5fQ.Y9nqNZIXbGYUezXB2NNy6rU424Slxm2hzjzqLaP4tfQ
 ### JWT_ACCESS_TOKEN_EXPIRES_IN=1h
 ### JWT_REFRESH_TOKEN_EXPIRES_IN=7d
 ### DATABASE_URL=your-neon-database-url
